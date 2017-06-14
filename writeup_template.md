@@ -1,6 +1,3 @@
-##Writeup Template
-###You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
-
 ---
 
 **Vehicle Detection Project**
@@ -18,21 +15,14 @@ The goals / steps of this project are the following:
 [image1]: ./examples/676.jpg
 [image2]: ./examples/984.jpg
 [image3]: ./examples/boxes_725.jpg
-[image4]: ./examples/sliding_window.jpg
-[image5]: ./examples/bboxes_and_heat.png
-[image6]: ./examples/labels_map.png
-[image7]: ./examples/output_bboxes.png
+[image4]: ./examples/60.jpg
+[image5]: ./examples/map_60.jpg
+[image6]: ./examples/194.jpg
+[image7]: ./examples/map_194.jpg
+[image8]: ./examples/boxes_194.jpg
 [video1]: ./project_video.mp4
 
-## [Rubric](https://review.udacity.com/#!/rubrics/513/view) Points
-###Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
-
----
-###Writeup / README
-
-####1. Provide a Writeup / README that includes all the rubric points and how you addressed each one.  You can submit your writeup as markdown or pdf.  [Here](https://github.com/udacity/CarND-Vehicle-Detection/blob/master/writeup_template.md) is a template writeup for this project you can use as a guide and a starting point.  
-
-
+###Here is my writeup for this project!
 
 ###Histogram of Oriented Gradients (HOG)
 
@@ -90,17 +80,22 @@ Here's a [link to my video result](./project_video.mp4)
 
 To filter and smooth out the bounding boxes I implemented a moving average over the heat maps, where each frame I added the current heatmap with a weight of 0.3 to the current average with a weight of 0.7 to obtain the new average (lines 23-42 in car_detector.py). To remove false positives, I thresholded the heat map at 0.6 (line 45 in car_detector.py).
 
+For example, here is a frame with the corresponding averaged heat map. Thanks to the thresholding, there is no bounding box drawn on the frame:
 
-### Here are six frames and their corresponding heatmaps:
-
+![alt text][image4]
 ![alt text][image5]
 
-### Here is the output of `scipy.ndimage.measurements.label()` on the integrated heatmap from all six frames:
-![alt text][image6]
+Here is another example of the detections in a single frame:
 
-### Here the resulting bounding boxes are drawn onto the last frame in the series:
+![alt text][image8]
+
+Here is the averaged heat map for that frame:
+
 ![alt text][image7]
 
+And this is the final outcome after combining and thresholding:
+
+![alt text][image6]
 
 
 ---
@@ -109,5 +104,11 @@ To filter and smooth out the bounding boxes I implemented a moving average over 
 
 ####1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+I think the main problem I saw in this exercise it that the training data is very different from the test data (video). So despite the fact that I divided the training data into a training set and test set, the performance out of the box on the video was not good. Unfortunately, I didn't have time to train on more data. In addition, data augmentation in the training phase. might have helped the classifier generalize.
+
+I had to tweak many parameters, such as the window sizes and search areas and the heat-map threshold to match the given video, but I'm sure that a video in another setting or different lighting conditions would expose other failure points of the model.
+
+To make it more robust, perhaps I could use in the future a combination of algorithms. I believe that combining deep learning with the classical approach that we used in this exercise could yield good results and I hope to test this out in the future.
+
+
 
